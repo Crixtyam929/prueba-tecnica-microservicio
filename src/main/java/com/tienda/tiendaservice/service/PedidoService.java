@@ -1,5 +1,6 @@
 package com.tienda.tiendaservice.service;
 
+import com.tienda.tiendaservice.exception.ResourceNotFoundException;
 import com.tienda.tiendaservice.dto.DetallePedidoDto;
 import com.tienda.tiendaservice.dto.PedidoRequestDto;
 import com.tienda.tiendaservice.entity.*;
@@ -25,7 +26,7 @@ public class PedidoService {
     public Pedido crearPedido(PedidoRequestDto request) {
 
         Cliente cliente = clienteRepository.findById(request.getClienteId())
-                .orElseThrow(() -> new RuntimeException("Cliente no encontrado"));
+                .orElseThrow(() -> new ResourceNotFoundException("Cliente no encontrado"));
 
         Pedido pedido = new Pedido();
         pedido.setCliente(cliente);
@@ -37,10 +38,10 @@ public class PedidoService {
         for (DetallePedidoDto detalleDto : request.getDetalles()) {
 
             Producto producto = productoRepository.findById(detalleDto.getProductoId())
-                    .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
+                    .orElseThrow(() -> new ResourceNotFoundException("Producto no encontrado"));
 
             if (producto.getStock() < detalleDto.getCantidad()) {
-                throw new RuntimeException("Stock insuficiente para el producto: " + producto.getNombre());
+                throw new ResourceNotFoundException("Stock insuficiente para el producto: " + producto.getNombre());
             }
 
             BigDecimal subtotal = producto.getPrecio()
@@ -72,6 +73,6 @@ public class PedidoService {
 
     public Pedido obtenerPedidoId(Long id) {
         return pedidoRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Pedido no encontrado"));
+                .orElseThrow(() -> new ResourceNotFoundException("Pedido no encontrado"));
     }
 }

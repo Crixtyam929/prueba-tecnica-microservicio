@@ -1,5 +1,6 @@
 package com.tienda.tiendaservice.service;
 
+import com.tienda.tiendaservice.exception.ResourceNotFoundException;
 import com.tienda.tiendaservice.entity.Cliente;
 import com.tienda.tiendaservice.repository.ClienteRepository;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +23,6 @@ public class ClienteService {
 
     public Cliente obtenerClienteId(Long id) {
         return clienteRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Cliente no encontrado"));
+                .orElseThrow(() -> new ResourceNotFoundException("Cliente no encontrado"));
     }
 }
