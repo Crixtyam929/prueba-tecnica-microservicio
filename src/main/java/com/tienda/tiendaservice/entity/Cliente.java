@@ -1,5 +1,6 @@
 package com.tienda.tiendaservice.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import java.util.List;
@@ -25,5 +26,6 @@ public class Cliente {
     private String telefono;
 
     @OneToMany(mappedBy = "cliente")
+    @JsonIgnore
     private List<Pedido> pedidos;
 }
