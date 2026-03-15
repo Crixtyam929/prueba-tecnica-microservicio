@@ -1,0 +1,77 @@
+package com.tienda.tiendaservice.service;
+
+import com.tienda.tiendaservice.dto.DetallePedidoDto;
+import com.tienda.tiendaservice.dto.PedidoRequestDto;
+import com.tienda.tiendaservice.entity.*;
+import com.tienda.tiendaservice.repository.*;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import jakarta.transaction.Transactional;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
+@Service
+@RequiredArgsConstructor
+@Transactional
+public class PedidoService {
+
+    private final PedidoRepository pedidoRepository;
+    private final ClienteRepository clienteRepository;
+    private final ProductoRepository productoRepository;
+
+    public Pedido crearPedido(PedidoRequestDto request) {
+
+        Cliente cliente = clienteRepository.findById(request.getClienteId())
+                .orElseThrow(() -> new RuntimeException("Cliente no encontrado"));
+
+        Pedido pedido = new Pedido();
+        pedido.setCliente(cliente);
+        pedido.setFecha(LocalDateTime.now());
+
+        List<DetallePedido> detalles = new ArrayList<>();
+        BigDecimal total = BigDecimal.ZERO;
+
+        for (DetallePedidoDto detalleDto : request.getDetalles()) {
+
+            Producto producto = productoRepository.findById(detalleDto.getProductoId())
+                    .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
+
+            if (producto.getStock() < detalleDto.getCantidad()) {
+                throw new RuntimeException("Stock insuficiente para el producto: " + producto.getNombre());
+            }
+
+            BigDecimal subtotal = producto.getPrecio()
+                    .multiply(BigDecimal.valueOf(detalleDto.getCantidad()));
+
+            producto.setStock(producto.getStock() - detalleDto.getCantidad());
+            productoRepository.save(producto);
+
+            DetallePedido detalle = new DetallePedido();
+            detalle.setProducto(producto);
+            detalle.setCantidad(detalleDto.getCantidad());
+            detalle.setPrecio(producto.getPrecio());
+            detalle.setPedido(pedido);
+
+            detalles.add(detalle);
+
+            total = total.add(subtotal);
+        }
+
+        pedido.setDetalles(detalles);
+        pedido.setTotal(total);
+
+        return pedidoRepository.save(pedido);
+    }
+
+    public List<Pedido> listarPedidos() {
+        return pedidoRepository.findAll();
+    }
+
+    public Pedido obtenerPedidoId(Long id) {
+        return pedidoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Pedido no encontrado"));
+    }
+}
