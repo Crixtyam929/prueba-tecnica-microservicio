@@ -217,7 +217,7 @@ La API estará disponible en:
 
 Desde la raíz del proyecto ejecutar:
 
-docker compose up --build
+    docker compose up --build
 
 Esto levantará automáticamente:
 
