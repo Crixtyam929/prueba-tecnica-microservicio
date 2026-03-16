@@ -17,7 +17,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n  \"nombre\": \"Pedro Juarez\",\r\n  \"email\": \"Juarez@gmail.com\",\r\n  \"telefono\": \"333 4747432\"\r\n}",
+              "raw": "{\r\n  \"nombre\": \"Cristian Andres Agudelo Henao\",\r\n  \"email\": \"cristianagudelo@gmai.com\",\r\n  \"telefono\": \"3214747432\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -95,7 +95,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n  \"clienteId\": 1,\r\n  \"detalles\": [\r\n    {\r\n      \"productoId\": 2,\r\n      \"cantidad\": 10\r\n    }\r\n  ]\r\n}",
+              "raw": "{\r\n  \"clienteId\": 1,\r\n  \"detalles\": [\r\n    {\r\n      \"productoId\": 1,\r\n      \"cantidad\": 1\r\n    },\r\n    {\r\n      \"productoId\": 2,\r\n      \"cantidad\": 1\r\n      }\r\n    \r\n  ]\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -137,13 +137,13 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{base_url}}/pedidos/1",
+              "raw": "{{base_url}}/pedidos/3",
               "host": [
                 "{{base_url}}"
               ],
               "path": [
                 "pedidos",
-                "1"
+                "3"
               ]
             }
           },
@@ -161,7 +161,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n  \"nombre\": \"Reloj\",\r\n  \"precio\": 500000,\r\n  \"stock\": 0\r\n}",
+              "raw": "{\r\n  \"nombre\": \"Iphone\",\r\n  \"precio\": 1000000,\r\n  \"stock\": 10\r\n}",
               "options": {
                 "raw": {
                   "language": "json"

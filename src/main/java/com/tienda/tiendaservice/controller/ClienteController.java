@@ -1,7 +1,8 @@
 package com.tienda.tiendaservice.controller;
 
-import com.tienda.tiendaservice.entity.Cliente;
+import com.tienda.tiendaservice.dto.ClienteDto;
 import com.tienda.tiendaservice.service.ClienteService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,17 +16,17 @@ public class ClienteController {
     private final ClienteService clienteService;
 
     @PostMapping
-    public Cliente crearCliente(@RequestBody Cliente cliente) {
-        return clienteService.crearCliente(cliente);
+    public ClienteDto crearCliente(@Valid @RequestBody ClienteDto clienteDto) {
+        return clienteService.crearCliente(clienteDto);
     }
 
     @GetMapping
-    public List<Cliente> listarClientes() {
+    public List<ClienteDto> listarClientes() {
         return clienteService.listarClientes();
     }
 
     @GetMapping("/{id}")
-    public Cliente obtenerClientePorId(@PathVariable Long id) {
+    public ClienteDto obtenerClientePorId(@PathVariable Long id) {
         return clienteService.obtenerClienteId(id);
     }
 }
