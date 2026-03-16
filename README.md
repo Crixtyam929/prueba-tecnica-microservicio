@@ -225,4 +225,3 @@ Ejemplo:
 Cristian Andres Agudelo Henao
 
 Tecnólogo En Desarrollo De Software - ITM
-Técnico En Diseño e Integración Multimedia - SENA
