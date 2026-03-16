@@ -12,15 +12,15 @@ public class ProductoDto {
 
     private Long id;
 
-    @NotBlank(message = "El nombre es obligatorio")
+    @NotBlank(message = "El nombre es obligatorio.")
     private String nombre;
 
-    @NotNull(message = "El precio es obligatorio")
-    @DecimalMin(value = "0.01", message = "El precio debe ser mayor que 0")
+    @NotNull(message = "El precio es obligatorio.")
+    @DecimalMin(value = "0.01", message = "El precio debe ser mayor que 0.")
     private BigDecimal precio;
 
-    @NotNull(message = "El stock es obligatorio")
-    @Min(value = 0, message = "El stock no puede ser negativo")
+    @NotNull(message = "El stock es obligatorio.")
+    @Min(value = 0, message = "El stock no puede ser negativo.")
     private Integer stock;
 
 }

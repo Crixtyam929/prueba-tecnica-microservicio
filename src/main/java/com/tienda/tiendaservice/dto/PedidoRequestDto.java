@@ -14,11 +14,11 @@ import java.util.List;
 @Builder
 public class PedidoRequestDto {
 
-    @NotNull(message = "El cliente es obligatorio")
+    @NotNull(message = "El cliente es obligatorio.")
     private Long clienteId;
 
     @Valid
-    @NotEmpty(message = "El pedido debe tener al menos un producto")
+    @NotEmpty(message = "El pedido debe tener al menos un producto.")
     private List<DetallePedidoDto> detalles;
 
 }

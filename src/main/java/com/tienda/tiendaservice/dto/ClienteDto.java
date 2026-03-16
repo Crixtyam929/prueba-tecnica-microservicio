@@ -16,7 +16,7 @@ public class ClienteDto {
     @NotBlank(message = "El nombre no puede estar vacío.")
     private String nombre;
 
-    @Email(message = "Email inválido")
+    @Email(message = "Email inválido.")
     private String email;
 
     private String telefono;
