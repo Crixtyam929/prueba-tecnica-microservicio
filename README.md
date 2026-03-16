@@ -2,74 +2,133 @@
 
 ## Descripción
 
-Este proyecto consiste en un microservicio REST desarrollado con **Java
-y Spring Boot** para la gestión de pedidos de una tienda.
-
-El sistema permite administrar:
-
--   Clientes
--   Productos
--   Pedidos
-
-El microservicio implementa reglas de negocio como validación de
-clientes existentes, control de stock y cálculo automático del total del
-pedido.
+Este proyecto corresponde a una prueba técnica para el desarrollo de un microservicio REST utilizando Java, Spring Boot, Spring Data JPA y MySQL.
+El sistema permite gestionar clientes, productos y pedidos, aplicando validaciones, manejo de errores y buenas prácticas en el diseño de la API.
 
 Este proyecto fue desarrollado como parte de una **prueba técnica para
 desarrollador Java Junior**.
 
 ------------------------------------------------------------------------
 
-# Tecnologías utilizadas
+## Tecnologías utilizadas
 
 -   Java 17
 -   Spring Boot
+-   Spring Web
 -   Spring Data JPA
 -   MySQL
 -   Maven
 -   Docker
--   Docker Compose
--   Postman
+-   Lombok
+-   Jakarta Validation
 
 ------------------------------------------------------------------------
 
-# Arquitectura del proyecto
+## Funcionalidades implementadas
 
-El proyecto sigue una arquitectura por capas:
+### Clientes
 
-controller → exposición de endpoints REST\
-service → lógica de negocio\
-repository → acceso a datos con JPA\
-entity → modelos de base de datos\
-dto → objetos de transferencia de datos\
-exception → manejo global de excepciones
+-   Crear cliente
+-   Listar clientes
+-   Obtener cliente por id
+
+### Productos
+
+-   Crear producto
+-   Listar productos
+-   Obtener producto por id
+
+### Pedidos
+
+-   Crear pedido
+-   Listar pedidos
+-   Obtener pedido por id
+------------------------------------------------------------------------
+## Reglas de negocio
+
+El sistema implementa las siguientes validaciones:
+
+-   No se puede crear un pedido si el cliente no existe.
+-   No se puede crear un pedido si no hay stock suficiente.
+-   El total del pedido se calcula automáticamente.
+-   Al crear un pedido se descuenta el stock del producto.
+------------------------------------------------------------------------
+
+## Arquitectura del proyecto
+
+La aplicación sigue una arquitectura por capas:
+
+    controller
+    service
+    repository
+    entity
+    dto
+    exception
+
+Flujo de la aplicación:
+
+    Controller → DTO → Service → Entity → Repository → Base de datos
+
+Se utilizan **DTOs** para evitar exponer directamente las entidades en
+los endpoints.
 
 ------------------------------------------------------------------------
 
-# Modelo de Datos
+## Manejo de errores
 
-### Cliente
+Se implementa un `GlobalExceptionHandler` para centralizar el manejo de
+errores.
+
+Tipos de errores manejados:
+
+-   **400 Bad Request**
+    -   errores de validación
+    -   reglas de negocio (por ejemplo stock insuficiente)
+-   **404 Not Found**
+    -   recurso no encontrado (cliente, producto o pedido)
+-   **500 Internal Server Error**
+    -   errores no controlados
+
+------------------------------------------------------------------------
+
+## Base de datos
+
+Base de datos sugerida:
+
+    tienda_db
+
+Configuración en `application.properties`:
+
+    spring.datasource.url=jdbc:mysql://localhost:3306/tienda_db
+    spring.datasource.username=root
+    spring.datasource.password=****
+    spring.jpa.hibernate.ddl-auto=update
+    spring.jpa.show-sql=true
+
+### Modelo de Datos
+
+#### Cliente
 
 -   id
 -   nombre
 -   email
 -   telefono
 
-### Producto
+#### Producto
 
 -   id
 -   nombre
 -   precio
 -   stock
 
-### Pedido
+#### Pedido
 
 -   id
 -   fecha
 -   cliente_id
 -   total
 
-### DetallePedido
+#### DetallePedido
 
 -   id
 -   pedido_id
@@ -79,46 +138,37 @@ exception → manejo global de excepciones
 
 ------------------------------------------------------------------------
 
-# Reglas de negocio implementadas
+## Endpoints REST
 
--   No se puede crear un pedido si el cliente no existe
--   No se puede crear un pedido si no hay stock suficiente
--   El total del pedido se calcula automáticamente
--   Al crear un pedido se descuenta el stock del producto
+### Clientes
 
-------------------------------------------------------------------------
+#### Crear cliente
 
-# Endpoints REST
+    POST /clientes
 
-## Clientes
+#### Listar clientes
 
-### Crear cliente
+    GET /clientes
 
-POST /clientes
+#### Obtener cliente por ID
 
-### Listar clientes
-
-GET /clientes
-
-### Obtener cliente por ID
-
-GET /clientes/{id}
+    GET /clientes/{id}
 
 ------------------------------------------------------------------------
 
-## Productos
+### Productos
 
-### Crear producto
+#### Crear producto
 
-POST /productos
+    POST /productos
 
-### Listar productos
+#### Listar productos
 
-GET /productos
+    GET /productos
 
-### Obtener producto por ID
+#### Obtener producto por ID
 
-GET /productos/{id}
+    GET /productos/{id}
 
 ------------------------------------------------------------------------
 
@@ -126,30 +176,44 @@ GET /productos/{id}
 
 ### Crear pedido
 
-POST /pedidos
+    POST /pedidos
+
 
 ### Listar pedidos
 
-GET /pedidos
+    GET /pedidos
 
 ### Obtener pedido por ID
 
-GET /pedidos/{id}
+    GET /pedidos/{id}
 
 ------------------------------------------------------------------------
 
-# Ejecución del proyecto
+## Ejecución del proyecto
 
-## Requisitos
+### 1. Clonar el repositorio
 
--   Java 17
--   Maven
--   Docker
--   Docker Compose
+    git clone <url-del-repositorio>
+
+### 2. Configurar la base de datos MySQL
+
+Crear la base de datos:
+
+    CREATE DATABASE tienda_db;
+
+### 3. Ejecutar la aplicación
+
+Con Maven:
+
+    mvn spring-boot:run
+
+La API estará disponible en:
+
+    http://localhost:8080
 
 ------------------------------------------------------------------------
 
-# Ejecutar con Docker (recomendado)
+## Ejecutar con Docker (recomendado)
 
 Desde la raíz del proyecto ejecutar:
 
@@ -160,38 +224,32 @@ Esto levantará automáticamente:
 -   MySQL
 -   Microservicio Spring Boot
 
-La API quedará disponible en:
+La API estará disponible en:
 
-http://localhost:8080
-
-------------------------------------------------------------------------
-
-# Base de datos
-
-La base de datos utilizada es:
-
-tienda_db
-
-Docker creará automáticamente el contenedor de MySQL.
+    http://localhost:8080
 
 ------------------------------------------------------------------------
 
-# Pruebas de la API
+## Pruebas de la API
 
 El repositorio incluye una **colección de Postman** que permite probar
 fácilmente todos los endpoints del microservicio.
 
 Ubicación dentro del proyecto:
 
-tienda\Postman\API Tienda - Prueba Técnica.postman_collection.json
+    Postman\API Tienda - Prueba Técnica.postman_collection.json
 
-## Cómo usar la colección
+
+
+### Cómo usar la colección
 
 1.  Abrir **Postman**
 2.  Seleccionar **Import**
-3.  Importar el archivo:
+3.  Importar la colección:
 
-API Tienda - Prueba Técnica.postman_collection.json
+Archivo de colección:
+
+    API Tienda - Prueba Técnica.postman_collection.json
 
 4.  Ejecutar las peticiones en el siguiente orden recomendado:
 
@@ -203,24 +261,10 @@ API Tienda - Prueba Técnica.postman_collection.json
 
 Esto permite validar correctamente el flujo completo del sistema.
 
+
 ------------------------------------------------------------------------
 
-# Manejo de errores
-
-El proyecto implementa **manejo global de excepciones** utilizando:
-
-@ControllerAdvice
-
-Esto permite devolver respuestas HTTP estructuradas cuando ocurre un
-error.
-
-Ejemplo:
-
-{ "mensaje": "Cliente no encontrado", "status": 404, "timestamp":
-"2026-03-15T20:00:00" }
-------------------------------------------------------------------------
-
-# Autor
+## Autor
 
 Cristian Andres Agudelo Henao
 
