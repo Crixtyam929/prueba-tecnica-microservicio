@@ -1,10 +1,10 @@
 package com.tienda.tiendaservice.controller;
 
-import com.tienda.tiendaservice.entity.Producto;
+import com.tienda.tiendaservice.dto.ProductoDto;
 import com.tienda.tiendaservice.service.ProductoService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
@@ -15,17 +15,17 @@ public class ProductoController {
     private final ProductoService productoService;
 
     @PostMapping
-    public Producto crearProducto(@RequestBody Producto producto) {
-        return productoService.crearProducto(producto);
+    public ProductoDto crearProducto(@Valid @RequestBody ProductoDto productoDto) {
+        return productoService.crearProducto(productoDto);
     }
 
     @GetMapping
-    public List<Producto> listarProductos() {
+    public List<ProductoDto> listarProductos() {
         return productoService.listarProductos();
     }
 
     @GetMapping("/{id}")
-    public Producto obtenerProductoPorId(@PathVariable Long id) {
+    public ProductoDto obtenerProductoPorId(@PathVariable Long id) {
         return productoService.obtenerProductoId(id);
     }
 }

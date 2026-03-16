@@ -1,8 +1,7 @@
 package com.tienda.tiendaservice.entity;
 
-import jakarta.persistence.*;
 import lombok.*;
-
+import jakarta.persistence.*;
 import java.math.BigDecimal;
 
 @Entity
